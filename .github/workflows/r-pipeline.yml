@@ -1,0 +1,27 @@
+name: R pipeline validation
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libnode-dev
+      - name: Install project dependencies
+        run: Rscript scripts/install_dependencies.R
+      - name: Boundary and regression tests
+        run: Rscript tests/run_tests.R
+      - name: Synthetic end-to-end pipeline
+        run: Rscript tests/synthetic_pipeline.R

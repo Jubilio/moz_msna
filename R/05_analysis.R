@@ -6,7 +6,11 @@ make_design <- function(d,cfg) {
   if (cfg$analysis_mode!='weighted' || !isTRUE(cfg$sampling_design_confirmed))
     stop('Weighted analysis needs a confirmed sampling design.')
   assert_cols(d,'weight')
-  if (anyNA(d$weight) || any(d$weight<=0)) stop('Missing/non-positive weights.')
+  if (any(!is.finite(d$weight)) || any(d$weight<=0)) stop('Missing/non-positive weights.')
+  design_columns <- c(cfg$psu_column %||% 'hh_id',cfg$strata_column)
+  assert_cols(d,design_columns)
+  if(any(vapply(d[,design_columns,drop=FALSE],anyNA,logical(1))))
+    stop('Missing PSU/stratum values in survey design.')
   args <- list(.data=d,weights=rlang::sym('weight'),nest=TRUE)
   args$ids <- rlang::sym(cfg$psu_column %||% 'hh_id')
   if (!is.null(cfg$strata_column)) args$strata <- rlang::sym(cfg$strata_column)
@@ -15,9 +19,12 @@ make_design <- function(d,cfg) {
 
 run_one_analysis <- function(d,var,type,group,cfg,table) {
   grouping <- if(is.na(group)) character() else trimws(strsplit(group,',',fixed=TRUE)[[1]])
-  assert_cols(d,c(var,grouping))
+  assert_cols(d,c(var,grouping,'hh_id'))
+  # Avoid copying the entire 1,092-column export into every indicator-specific design.
+  needed <- unique(c(var,grouping,'hh_id','weight',cfg$psu_column,cfg$strata_column))
+  d <- d[,intersect(needed,names(d)),drop=FALSE]
   # Exclude only missing indicator responses; structural skips are never denominator zeroes.
-  eligible <- d[!is.na(d[[var]]),,drop=FALSE]
+  eligible <- d[analysis_validity(d,var,type),,drop=FALSE]
   if (!nrow(eligible)) return(tibble::tibble())
   # Preserve type and reporting denominator for raw binary/numeric fields.
   if(type %in% c('mean','median')) eligible[[var]] <- num(eligible[[var]])
@@ -26,7 +33,11 @@ run_one_analysis <- function(d,var,type,group,cfg,table) {
     eligible <- eligible[!is.na(eligible[[var]]),,drop=FALSE]
     if(!nrow(eligible)) return(tibble::tibble())
   }
-  design <- make_design(eligible,cfg)
+  # Build the complete design first; filter a domain afterwards to preserve PSU/strata structure.
+  design_data <- d
+  design_data$.pipeline_valid <- analysis_validity(d,var,type)
+  if(type %in% c('mean','median')) design_data[[var]] <- num(design_data[[var]])
+  design <- make_design(design_data,cfg) |> dplyr::filter(.pipeline_valid)
   loa <- tibble::tibble(analysis_type=type,analysis_var=var,group_var=group,level=cfg$confidence_level)
   result <- analysistools::create_analysis(design=design,loa=loa,sm_separator='/')$results_table
   result$table <- table; result$requested_variable <- var; result$requested_group <- group
@@ -36,13 +47,14 @@ run_one_analysis <- function(d,var,type,group,cfg,table) {
       '4+',as.character(result$analysis_var_value))
   }
   # Attach independently counted denominator; do not rename package n_sample fields.
-  nn <- eligible |> dplyr::group_by(dplyr::across(dplyr::all_of(grouping))) |>
-    dplyr::summarise(n_unweighted_valid=dplyr::n(),n_households=dplyr::n_distinct(hh_id),.groups='drop')
-  if (length(grouping)) {
-    nn$group_var_value <- apply(as.data.frame(nn[,grouping,drop=FALSE]),1,paste,collapse=' %/% ')
+  nn <- analysis_denominators(d,var,type,group)
+  nn <- nn[,c('group_var_value','n_valid','n_valid_households'),drop=FALSE]
+  names(nn)[2:3] <- c('n_unweighted_valid','n_households')
+  if(length(grouping)) {
     result <- dplyr::left_join(result,nn,by='group_var_value',relationship='many-to-one')
   } else {
-    result$n_unweighted_valid <- nrow(eligible);result$n_households <- dplyr::n_distinct(eligible$hh_id)
+    result$n_unweighted_valid <- nrow(eligible)
+    result$n_households <- dplyr::n_distinct(eligible$hh_id)
   }
   result$small_sample <- ifelse(is.na(result$n_unweighted_valid),NA,
                                 result$n_unweighted_valid<cfg$min_reporting_n)
@@ -61,15 +73,22 @@ analyse_data <- function(cfg) {
     if(anyDuplicated(weights$hh_id)) stop('Duplicate weight keys.')
     weights$weight <- num(weights$weight)
     main <- dplyr::left_join(main,weights,by='hh_id',relationship='one-to-one')
-    if(anyNA(main$weight)) stop('Weights do not cover all cleaned households.')
+    if(any(!is.finite(main$weight)) || any(main$weight<=0)) stop('Weights do not cover all cleaned households.')
   } else main$weight <- 1
   tables$main <- main
   for (tab in setdiff(names(tables),'main')) tables[[tab]] <- attach_household(tables[[tab]],main,
     extra=c(cfg$psu_column,cfg$strata_column))
   metrics <- read_csv_text('config/indicators.csv'); results <- list(); denominators <- list(); k <- 0L
+  if(anyDuplicated(metrics[,c('table','variable','analysis_type')]))
+    stop('Duplicate indicator definitions in config/indicators.csv.')
+  skipped <- list()
   for(i in seq_len(nrow(metrics))) {
     tab <- metrics$table[i]; var <- metrics$variable[i]; d <- tables[[tab]]
-    if (!var %in% names(d)) next
+    if (!var %in% names(d)) {
+      skipped[[length(skipped)+1L]] <- dplyr::mutate(metrics[i,,drop=FALSE],
+        reason='Not generated: missing input or methodologically gated indicator')
+      next
+    }
     if(metrics$population[i]=='school_age') d <- d[d$eligible_education %in% TRUE,,drop=FALSE]
     if(metrics$population[i]=='education_access') d <- d[d$education_access %in% 'yes',,drop=FALSE]
     if(metrics$population[i]=='education_oos') d <- d[d$education_access %in% 'no',,drop=FALSE]
@@ -79,13 +98,13 @@ analyse_data <- function(cfg) {
       k <- k+1L
       results[[k]] <- run_one_analysis(d,var,metrics$analysis_type[i],g,cfg,tab)
       gg <- if(is.na(g)) character() else trimws(strsplit(g,',',fixed=TRUE)[[1]])
-      denominators[[k]] <- d |> dplyr::group_by(dplyr::across(dplyr::all_of(gg))) |>
-        dplyr::summarise(n_eligible=dplyr::n(),n_valid=sum(!is.na(.data[[var]])),
-          n_missing=sum(is.na(.data[[var]])),n_households=dplyr::n_distinct(hh_id),.groups='drop') |>
-        dplyr::mutate(table=tab,variable=var,group_spec=g)
+      denominators[[k]] <- analysis_denominators(d,var,metrics$analysis_type[i],g) |>
+        dplyr::mutate(table=tab,variable=var,analysis_type=metrics$analysis_type[i],group_spec=g)
     }
   }
   result <- dplyr::bind_rows(results); denom <- dplyr::bind_rows(denominators)
+  if(!nrow(result)) stop('No valid analysis results were generated.')
+  write_csv(dplyr::bind_rows(skipped),'outputs/qa/skipped_indicators.csv')
   coverage <- readRDS('data/processed/sector_coverage.rds')
   missing_tables <- list(); k_missing <- 0L
   sector_vars <- grep('^comp_.*_score$',names(coverage),value=TRUE)
@@ -111,3 +130,4 @@ analyse_data <- function(cfg) {
     'outputs/analysis/MOZ_MSNA_2026_results.xlsx',overwrite=TRUE)
   message('Results exported; inspect denominator and methodological gap tables before reporting.')
 }
+

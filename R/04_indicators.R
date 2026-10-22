@@ -71,26 +71,33 @@ water_indicators <- function(main,cfg) {
   for (j in seq_along(sizes)) {
     v <- vars[j]; selected <- paste0('wash_container_size/',sizes[j],'_litres'); assert_cols(x,selected)
     raw <- num(x[[v]]); flag <- num(x[[selected]])
+    invalid_raw <- !is.na(x[[v]]) & !is.finite(raw)
     # Zero only for an explicitly unselected container with a blank count.
     counts[,j] <- ifelse(flag==0 & is.na(raw),0,raw)
     counts[!is.na(counts[,j]) & (counts[,j]<0 | counts[,j]!=floor(counts[,j])),j] <- NA_real_
     # Missing response to the container question remains unknown, not zero litres.
-    counts[is.na(flag),j] <- NA_real_
+    counts[is.na(flag) | !flag %in% c(0,1) | invalid_raw,j] <- NA_real_
+    counts[flag %in% 0 & !is.na(raw) & raw!=0,j] <- NA_real_
   }
+  counts[water_unknown_quantity(x),] <- NA_real_
   x$water_litres_collected_yesterday <- rowSums(sweep(counts,2,sizes,'*'),na.rm=FALSE)
-  hh <- num(x$hh_size); hh[is.na(hh)|hh<=0|hh!=floor(hh)] <- NA_real_
+  hh <- num(x$hh_size); hh[!is.finite(hh)|hh<=0|hh!=floor(hh)] <- NA_real_
   if('hh_size_analysis_valid' %in% names(x)) hh[!x$hh_size_analysis_valid] <- NA_real_
   x$water_litres_collected_per_person_yesterday <- x$water_litres_collected_yesterday/hh
   x$water_collection_below_15l <- ifelse(is.na(x$water_litres_collected_per_person_yesterday),
     NA_character_,ifelse(x$water_litres_collected_per_person_yesterday<15,'below_15','15_or_more'))
   # Collection yesterday is a proxy. It is not a measured daily consumption indicator or HWISE.
   x <- append_humind(x,humind::add_drinking_water_source_cat)
-  tm <- num(x$wash_drinking_water_time_int); tm[tm<0] <- NA_real_
-  x$water_collection_time_over_30min <- ifelse(is.na(tm),NA_character_,ifelse(tm>30,'over_30','30_or_less'))
+  x$water_time_category <- water_time_category(x,cfg)
+  tc <- x$water_time_category
+  x$water_collection_time_over_30min <- dplyr::case_when(
+    tc=='above_30min' ~ 'over_30',tc %in% c('under_30min','premises') ~ '30_or_less',
+    TRUE ~ NA_character_)
   cat <- x$wash_drinking_water_source_cat
   x$water_jmp_service <- dplyr::case_when(
     cat=='surface_water' ~ 'surface_water',cat=='unimproved' ~ 'unimproved',
-    cat=='improved' & tm>30 ~ 'limited',cat=='improved' & tm<=30 ~ 'basic',
+    cat=='improved' & tc=='above_30min' ~ 'limited',
+    cat=='improved' & tc %in% c('under_30min','premises') ~ 'basic',
     TRUE ~ NA_character_)
   # Safely managed cannot be inferred without availability and water quality testing.
   map <- read_csv_text('config/sanitation_mapping.csv')
@@ -103,9 +110,30 @@ water_indicators <- function(main,cfg) {
   x
 }
 
-education_indicators <- function(loop,cfg) {
+education_indicators <- function(loop,cfg,main=NULL) {
   x <- loop; assert_cols(x,c('edu_ind_age','edu_access','edu_level_grade','edu_ind_gender'))
   x$age <- num(x$edu_ind_age)
+  if(!is.null(cfg$education_interview_date_column)) {
+    if(is.null(main) || !isTRUE(cfg$education_school_year_confirmed))
+      stop('Corrected education age needs main data and a confirmed school-year configuration.')
+    month <- cfg$education_school_year_start_month
+    if(length(month)!=1 || !is.finite(num(month)) || !num(month) %in% 1:12)
+      stop('Set a confirmed school-year start month from 1 to 12.')
+    date_var <- cfg$education_interview_date_column
+    assert_cols(main,c('hh_id',date_var))
+    dates <- substr(as.character(main[[date_var]]),1,10)
+    if(anyNA(as.Date(dates,format='%Y-%m-%d')))
+      stop('Education age correction requires valid interview dates; no dates will be imputed.')
+    main_date <- main; main_date[[date_var]] <- dates
+    corrected <- humind::add_loop_edu_ind_age_corrected(x,main=main_date,
+      id_col_loop='hh_id',id_col_main='hh_id',ind_age='edu_ind_age',
+      survey_start_date=date_var,school_year_start_month=cfg$education_school_year_start_month,
+      schooling_start_age=cfg$education_age_min,schooling_end_age=cfg$education_age_max)
+    x$age <- num(corrected$edu_ind_age_corrected)
+  }
+  x$education_age_basis <- if(is.null(cfg$education_interview_date_column))
+    'age_at_interview' else 'corrected_to_school_year'
+  x$age[!is.finite(x$age) | x$age<0 | x$age!=floor(x$age)] <- NA_real_
   x$eligible_education <- !is.na(x$age) & x$age>=cfg$education_age_min & x$age<=cfg$education_age_max
   x$education_access <- ifelse(x$eligible_education & x$edu_access %in% c('yes','no'),x$edu_access,NA_character_)
   x$education_oos <- ifelse(is.na(x$education_access),NA_character_,
@@ -116,6 +144,8 @@ education_indicators <- function(loop,cfg) {
   x$grade_numeric[!grepl('^grade_[0-9]+$',x$edu_level_grade) %in% TRUE] <- NA_real_
   map <- read_csv_text('config/education_grades.csv')
   if (isTRUE(cfg$education_cycle_mapping_confirmed)) {
+    if(anyDuplicated(map$code) || anyNA(map$cycle) || anyNA(num(map$intended_age)))
+      stop('Complete and validate config/education_grades.csv before enabling cycle/overage outputs.')
     ii <- match(x$edu_level_grade,map$code)
     x$education_cycle <- map$cycle[ii]
     intended <- num(map$intended_age[ii])
@@ -163,7 +193,8 @@ health_indicators <- function(loop,main) {
     any(num(unlist(hh[i,vars]))>0,na.rm=TRUE),logical(1))
   for (v in c('comp_health_score','comp_health_in_need','comp_health_in_severe_need')) hh[[v]] <- NA_real_
   if (any(observed)) {
-    comp <- humind::add_comp_health(hh[observed,,drop=FALSE])
+    generated <- c('comp_health_score','comp_health_in_need','comp_health_in_severe_need')
+    comp <- humind::add_comp_health(hh[observed,setdiff(names(hh),generated),drop=FALSE])
     for (v in c('comp_health_score','comp_health_in_need','comp_health_in_severe_need')) hh[[v]][observed] <- comp[[v]]
   }
   hh$health_composite_complete <- complete
@@ -183,7 +214,7 @@ compose_indicators <- function(cfg) {
   tables$main <- main; tables$health_ind <- health$loop
   main <- household_disaggregation(main)
   tables$main <- main
-  tables$edu_ind <- education_indicators(tables$edu_ind,cfg)
+  tables$edu_ind <- education_indicators(tables$edu_ind,cfg,main)
   gaps <- read_csv_text('config/methodology_gaps.csv')
   write_csv(gaps,'outputs/qa/methodology_gaps.csv')
   # p.6: publish coverage by the disaggregation plan, including wholly absent sectors.
@@ -206,3 +237,4 @@ compose_indicators <- function(cfg) {
     'Do not substitute zero scores. Review outputs/qa/methodology_gaps.csv.')
   saveRDS(tables,'data/processed/indicators.rds')
 }
+

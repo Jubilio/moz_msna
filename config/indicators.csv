@@ -502,3 +502,4 @@ main,aap_preferred_source_info/dnk,prop_select_one,all
 main,aap_preferred_source_info/pnta,prop_select_one,all
 main,aap_preferred_source_info/other,prop_select_one,all
 main,lcsi_local_used_category,prop_select_one,all
+main,wash_drinking_water_source_cat,prop_select_one,all

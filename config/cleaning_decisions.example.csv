@@ -1,0 +1,2 @@
+table,uuid,question,old_value,change_type,new_value,reason,reviewer,approved
+main,main::EXAMPLE,EXAMPLE_QUESTION,EXAMPLE_OLD,no_action,,EXAMPLE_REVIEW_REASON,EXAMPLE_REVIEWER,no

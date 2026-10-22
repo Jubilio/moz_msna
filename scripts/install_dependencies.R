@@ -2,6 +2,7 @@
 # source('scripts/install_dependencies.R')
 # All installer state is local; no console variables such as cran or refs are needed.
 local({
+  if(getRversion() < '4.3.0') stop('R >= 4.3 is required by the pinned presentresults version.')
   if (!file.exists('config/project.R'))
     stop('Open MOZ_MSNA_2026.Rproj and run the installer from the project root.')
   options(repos=c(CRAN='https://cloud.r-project.org'),
@@ -25,7 +26,8 @@ local({
     github_refs <- c(
       cleaningtools='impact-initiatives/cleaningtools@f917e607115cb9da255d09039965a06bae1736e5',
       analysistools='impact-initiatives/analysistools@d748f320c41eeaa5619be45457414ffb4f53e78a',
-      humind='impact-initiatives-hppu/humind@v2026.4.1')
+      humind='impact-initiatives-hppu/humind@v2026.4.1',
+      presentresults='impact-initiatives/presentresults@6219392a2983db6c90b5e7cb557db5e052b76fed')
     # renv supports GitHub owner/repository@ref directly; remotes is not required.
     renv::install(packages=cran_packages, project=getwd(), prompt=FALSE)
     for (ref in unname(github_refs))
@@ -40,7 +42,8 @@ local({
       analysistools='create_analysis',
       humind=c('add_fcs','add_rcsi','add_hhs','add_fcm_phase',
                'add_fclcm_phase','add_comp_foodsec','add_comp_health',
-               'add_drinking_water_source_cat'))
+               'add_drinking_water_source_cat'),
+      presentresults='create_table_variable_x_group')
     for (pkg in names(required_functions)) {
       missing_functions <- setdiff(required_functions[[pkg]],getNamespaceExports(pkg))
       if(length(missing_functions)) stop(pkg,': missing functions: ',
@@ -57,3 +60,4 @@ local({
   # An error stops source(); no success message is emitted after a failed operation.
   install_project()
 })
+

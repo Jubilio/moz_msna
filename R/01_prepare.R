@@ -22,7 +22,7 @@ prepare_data <- function(cfg) {
     if (anyDuplicated(names(d))) stop('Duplicate target names in ',tab)
     assert_cols(d,c('uuid','_index'),tab)
     idx <- d[['_index']]
-    d$record_id <- if (tab=='main') paste(tab,idx,sep='::') else
+    d$record_id <- if(!nrow(d)) character() else if (tab=='main') paste(tab,idx,sep='::') else
       paste(tab,d[['_parent_index']],idx,sep='::')
     if (anyNA(idx) || anyDuplicated(d$record_id)) stop('Missing/duplicate immutable record keys in ',tab)
     d$hh_id <- as.character(d$uuid)
@@ -62,3 +62,4 @@ prepare_data <- function(cfg) {
   hashes <- tools::md5sum(c(cfg$dataset,cfg$kobo,'config/column_map.csv'))
   write_csv(tibble::tibble(path=names(hashes),md5=unname(hashes)), 'outputs/metadata/input_hashes.csv')
 }
+
