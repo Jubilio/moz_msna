@@ -1,0 +1,13 @@
+data/raw/*
+!data/raw/README.md
+data/processed/*
+!data/processed/.gitkeep
+outputs/*
+!outputs/.gitkeep
+.Rhistory
+.RData
+.Rproj.user/
+renv/library/
+renv/staging/
+config/weights.csv
+config/cleaning_decisions.csv

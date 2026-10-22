@@ -1,0 +1,6 @@
+source,issue,handling
+WASH!B86:D94,Choice code/label/category rows appear shifted. Example: hanging_toilet is paired with no facility; none is paired with Other.,Do not import this mapping automatically. Retain guarded local sanitation map and validate against global Kobo/Indicator Bank.
+Education!B56:E56,Deviation text states attack indicator omitted with HQ approval; local Kobo contains a direct-attack option.,Retain collected attack data. Do not infer that this note authorizes an omission or belongs to this country assessment.
+Disaggregation!B25:C48,"Heading says income percentiles; categories are fractions of median income, not quantile ranks.",Do not generate quintiles from these labels or treat source percentage shares as monetary amounts.
+Food Security!E89 (embedded matrix),Livelihood Coping Phase 5 appears in the example; humind FCLC input has None/Stress/Crisis/Emergency only.,Near-exhaustion threshold needs contextual definition/validation. Do not invent a Phase 5 livelihood category.
+Food Security!B15,Text refers to IMPACTR4PHU; the September 2026 guidance states functions migrated to humind.,"Use pinned humind functions; keep older workbook as companion reference, not an automatic override."

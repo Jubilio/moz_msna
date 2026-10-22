@@ -1,0 +1,154 @@
+[
+  {
+    "path": ".gitignore",
+    "sha256": "a2171ddf7382ca1a0631492274d7b571659c8ee34d093a0feae83cb99a587754"
+  },
+  {
+    "path": "MAIN.R",
+    "sha256": "eacae8db3a586821945b0f0bed872add350f12849ff6ec8813f5730d1bc0f62c"
+  },
+  {
+    "path": "MOZ_MSNA_2026.Rproj",
+    "sha256": "49e0757012ad1cdfee4efb09d72557166c7cfd5bbbd3fca55b0c4514528e8719"
+  },
+  {
+    "path": "R/00_utils.R",
+    "sha256": "b433f25df738fc52fcc6d7158c353ce7bf3959b151bbf2ac8c7a4b876e0f6e12"
+  },
+  {
+    "path": "R/01_prepare.R",
+    "sha256": "64c6d0fbbcca92acae3353141bd675641591ccb63d0e9bbb5b90bddff230ba92"
+  },
+  {
+    "path": "R/02_checks.R",
+    "sha256": "aca19abf3cc8ca4f65cf82a3bed8e161be31ec7a59b7a64b42a9067c45f9d763"
+  },
+  {
+    "path": "R/03_clean.R",
+    "sha256": "d425e2d7510bd807ccb110d4d4514e66894cd43b130e6d0d2d121451bafbd719"
+  },
+  {
+    "path": "R/04_indicators.R",
+    "sha256": "6e098ec821f3b04d7fd9ec0dcfe3e5afd1df2ebcf514279dc5199a6a5c9d2740"
+  },
+  {
+    "path": "R/04a_disaggregation.R",
+    "sha256": "cda354b95d48c431d3eaf822488d89f829b0242b2aba37e5d171bb0fc32a4b85"
+  },
+  {
+    "path": "R/05_analysis.R",
+    "sha256": "12cf6f1a1f31ba8b8486041747eeb314d3da8abd70a000bf96949b5684068e24"
+  },
+  {
+    "path": "README.md",
+    "sha256": "855170354807848b027c9673c78b2c44af5a21901a8eb9de9c9ba2aeea4dd049"
+  },
+  {
+    "path": "config/choices_dictionary.csv",
+    "sha256": "db083e5572e822ec268f4f237f4b7de62b6f114680af4544136c36392652363a"
+  },
+  {
+    "path": "config/cleaning_decisions.csv",
+    "sha256": "d481f8448acdf18e465c5b1d18dabc21924e2e7c89cfe90e448ca87890977e07"
+  },
+  {
+    "path": "config/column_map.csv",
+    "sha256": "d6780e0ca7529e7c73bc5b791794d5a37e3851c2d0f2a02b5c00610bcbe82a0c"
+  },
+  {
+    "path": "config/education_grades.csv",
+    "sha256": "093a45e0ef045e0542a548cedb734f9cfdb39727637c7d6a39ee3934e8c074ca"
+  },
+  {
+    "path": "config/fclcm_reference_cells.csv",
+    "sha256": "505d36634b0d21c03bdc3010a709288a8487acfdc3927e1c7382cf45ca582ac2"
+  },
+  {
+    "path": "config/framework_requirements.csv",
+    "sha256": "18d1d918c201cf3e86d041f23b14bb1d4387d6306bd0aa868fe983911281cf1f"
+  },
+  {
+    "path": "config/hicm_reference_cells.csv",
+    "sha256": "655851482e6d1247e26b132ea500f7047cb5e5c2a92bf85f0de5ceef995eaa25"
+  },
+  {
+    "path": "config/indicators.csv",
+    "sha256": "f48a7b367873f6d304bf2ffd08486fb1834f89d20b56cdb2bf5c00b3341d8c32"
+  },
+  {
+    "path": "config/lcsi_strategies.csv",
+    "sha256": "9767f0c5f288490702e8d11811f045405166d174d6e559d913a80a2d169c2f9b"
+  },
+  {
+    "path": "config/lcsi_unclassified_items.csv",
+    "sha256": "053f15924d7dc4c0f2e7925141f42f35c837a179e029ac20ed9c35bc935cdcd2"
+  },
+  {
+    "path": "config/methodology_gaps.csv",
+    "sha256": "db74a5f09fa7a8bd9cc0d0339a6cfb131c1b4ae449c722aaace1b90b4d09602d"
+  },
+  {
+    "path": "config/project.R",
+    "sha256": "a93c87aea7c8b20e0a4354a68fd5b6d3ef799b5715e8bf254155258572707f92"
+  },
+  {
+    "path": "config/sanitation_mapping.csv",
+    "sha256": "bd4ec136c75150990220557a75b3a2f4cb67c00a5cd30fb51eae4eaea2d181a0"
+  },
+  {
+    "path": "config/sheets.csv",
+    "sha256": "c3645d9a1c712ade773c0a23bdf64496e1efe07fd0bbc4a669ab2ae012df6c05"
+  },
+  {
+    "path": "config/survey_dictionary.csv",
+    "sha256": "49b8a16f7d233056a8d661273fae3f9105497ecd378e14317d080250b03fe6d2"
+  },
+  {
+    "path": "config/weights.csv",
+    "sha256": "e8644633c902d7bd11602b7acff57a717c3ed463162c8577b2f6cb7fdd68d52d"
+  },
+  {
+    "path": "data/processed/.gitkeep",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "data/raw/README.md",
+    "sha256": "09a44485528e298242e698d9ef391601b63ec6babe72f10aac23c30947dc2a11"
+  },
+  {
+    "path": "data/raw/kobo-used.xlsx",
+    "sha256": "959b41de96e1e7489b06d75996333435bedbc3c428db1a467d000507e44bbde5"
+  },
+  {
+    "path": "docs/distribution_manifest.json",
+    "sha256": "d557226a35af07d052df3a1d21af341e02fe42c76e48b6525445aabeb83f036d"
+  },
+  {
+    "path": "docs/framework_comparison.json",
+    "sha256": "0ab1ae08c5ffd065e1bfaf486089a189325fcbee4b7a8d6f4d015a151a2abbb7"
+  },
+  {
+    "path": "docs/framework_reference_warnings.csv",
+    "sha256": "295c9bd69d7128fa6ec5e8760bf859db1d14bb6ef912a9b6091ed4feca81d6c1"
+  },
+  {
+    "path": "docs/unmapped_columns.csv",
+    "sha256": "d5326a06fe61a46db04a0ee08f4c42fb5ed6440d780f355505b534cbedcf81e0"
+  },
+  {
+    "path": "docs/validation.json",
+    "sha256": "b978a9bf7fc3555ddccaecddd4fb51c09201a060bfa75f4add2cc87338e27eeb"
+  },
+  {
+    "path": "outputs/.gitkeep",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "scripts/install_dependencies.R",
+    "sha256": "a8e382e035dcb796ab0dfc87762a4bdcfbe507e0a21e6f91c5babb0daa864885"
+  },
+  {
+    "path": "tests/run_tests.R",
+    "sha256": "92463379823dc65f8831efdd6483eada83a4e43841b4aa7f11d4ca77fc354165"
+  }
+]

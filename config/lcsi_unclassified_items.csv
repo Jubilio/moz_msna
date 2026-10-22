@@ -1,0 +1,3 @@
+variable,reason
+hh_lcsfs_wildfood,Not assigned a severity in the local labelled tool. Report descriptively; not included in local LCSI.
+hh_lcsfs_begged,Requires confirmation of local severity. Report descriptively; not included in local LCSI.

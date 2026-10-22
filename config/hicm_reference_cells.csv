@@ -1,0 +1,46 @@
+cell,fcs_category,rcsi_category,hhs_category,expected_phase
+1,Acceptable,No to Low,None,1
+2,Acceptable,No to Low,Little,2
+3,Acceptable,No to Low,Moderate,2
+4,Acceptable,No to Low,Severe,3
+5,Acceptable,No to Low,Very Severe,3
+6,Borderline,No to Low,None,1
+7,Borderline,No to Low,Little,2
+8,Borderline,No to Low,Moderate,3
+9,Borderline,No to Low,Severe,3
+10,Borderline,No to Low,Very Severe,4
+11,Poor,No to Low,None,2
+12,Poor,No to Low,Little,2
+13,Poor,No to Low,Moderate,3
+14,Poor,No to Low,Severe,4
+15,Poor,No to Low,Very Severe,4
+16,Acceptable,Medium,None,2
+17,Acceptable,Medium,Little,2
+18,Acceptable,Medium,Moderate,2
+19,Acceptable,Medium,Severe,3
+20,Acceptable,Medium,Very Severe,3
+21,Borderline,Medium,None,2
+22,Borderline,Medium,Little,2
+23,Borderline,Medium,Moderate,3
+24,Borderline,Medium,Severe,3
+25,Borderline,Medium,Very Severe,4
+26,Poor,Medium,None,2
+27,Poor,Medium,Little,3
+28,Poor,Medium,Moderate,3
+29,Poor,Medium,Severe,4
+30,Poor,Medium,Very Severe,5
+31,Acceptable,High,None,2
+32,Acceptable,High,Little,2
+33,Acceptable,High,Moderate,3
+34,Acceptable,High,Severe,3
+35,Acceptable,High,Very Severe,4
+36,Borderline,High,None,2
+37,Borderline,High,Little,3
+38,Borderline,High,Moderate,3
+39,Borderline,High,Severe,4
+40,Borderline,High,Very Severe,4
+41,Poor,High,None,3
+42,Poor,High,Little,3
+43,Poor,High,Moderate,3
+44,Poor,High,Severe,4
+45,Poor,High,Very Severe,5

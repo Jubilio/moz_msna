@@ -1,0 +1,13 @@
+sector,component,status,reason
+WASH,HWISE-4,blocked,Only one frequency question; no complete four-item scale
+WASH,Hygiene JMP,adaptation_required,Local handwashing questions differ from global template; descriptive outputs only
+WASH,Sanitation JMP,validation_required,Ambiguous technologies need context validation; disabled by default
+SNFI,Functional domestic space,blocked,energy_lighting_source absent; do not treat as zero
+Protection,Three-dimensional composite,blocked,"Global movement, activities/social and rights/justice questions not reproduced"
+Education,"Cycle, adjusted attendance and overage",validation_required,English/Portuguese grade labels conflict; configure approved grade mapping
+Education,Sectoral composite,adaptation_required,Barrier labels and disruption reference periods need review; descriptive indicators enabled
+Food security,Local LCSI,provisional,Eleven locally labelled stress/crisis/emergency strategies; two additional strategies unclassified
+Food security,FCLCM and sectoral composite,validation_required,Disabled until local strategy mapping is explicitly confirmed
+Survey,Population weights and CIs,unavailable,Unit-weight descriptive default; supply final weights and confirmed sampling design
+Water quantity,Litres collected yesterday,proxy,Collection is not consumption; missing selected-container counts remain NA
+MSNI,Full six-sector index,blocked,No complete equivalent six-sector framework available

@@ -1,0 +1,19 @@
+{
+  "reference": "REACH_MSNA_2026_MSNI_EN_20260626.xlsx",
+  "md5": "911cca13cd5a468edb5ee02442143055",
+  "requirements": 102,
+  "status_counts": {
+    "alternative_input": 2,
+    "alternative_module_not_collected": 10,
+    "binary_mapping": 4,
+    "candidate_requires_review": 6,
+    "not_collected": 14,
+    "not_equivalent_amount_input": 12,
+    "renamed_input": 25,
+    "same_code": 29
+  },
+  "embedded_fc_cells_checked_against_pinned_source": 45,
+  "embedded_fclc_cells_checked_against_pinned_source_logic": 20,
+  "reference_warnings": 5,
+  "runtime_R_tests_executed": false
+}

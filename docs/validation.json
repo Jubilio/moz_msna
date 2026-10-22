@@ -1,0 +1,24 @@
+{
+  "source_sheets": 8,
+  "source_columns": 1092,
+  "mapped_columns": 1091,
+  "unmapped_columns": 1,
+  "configured_analysis_rows": 503,
+  "checks_passed": [
+    "Exact sheet/header alignment",
+    "Unique mapped names per sheet",
+    "Choice codes for mapped binaries",
+    "Core indicator inputs present",
+    "Configured analysis variables resolvable",
+    "No duplicate analysis rows",
+    "R source quotes/brackets lexically balanced",
+    "Conservative methodology defaults"
+  ],
+  "not_executed": [
+    "R syntax parsing",
+    "R dependency installation",
+    "Synthetic R tests",
+    "Full data cleaning/analysis"
+  ],
+  "reason": "R/Rscript unavailable in the build environment. Lexical checks do not prove executable correctness."
+}

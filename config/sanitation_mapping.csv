@@ -1,0 +1,13 @@
+code,class,note
+pit_latrine_slab,improved,Slab specified
+pit_latrine_wo_slab,unimproved,No slab
+emergency_communal_latrine,undefined,"Communal describes sharing, not technology"
+flush_latrine,undefined,Disposal destination not recorded
+open_hole,unimproved,Open pit
+improved_pit_latrine,improved,Ventilated with slab
+open_defecation,none,No facility
+pit_latrine_with_chair,undefined,Chair does not establish improved technology
+chair_adapted_for_pwd,undefined,Accessibility equipment does not establish disposal technology
+other,undefined,Review free text
+dnk,undefined,Unknown
+pnta,undefined,Refusal
