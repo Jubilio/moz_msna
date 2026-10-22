@@ -5,7 +5,7 @@ An R project configured for `REACH_MOZ_Data_MSNA_01102026.xlsx` and `kobo-used.x
 ## Start
 
 1. Extract the project and open `MOZ_MSNA_2026.Rproj` in RStudio.
-2. Copy the original dataset into `data/raw/`. The supplied Kobo form is already included. Keep the original files unchanged.
+2. Copy the original dataset into `data/raw/`. Copy the matching Kobo form to `data/raw/kobo-used.xlsx`. Keep the original files unchanged.
 3. Install dependencies once:
 
 ```r
@@ -32,11 +32,13 @@ Rscript MAIN.R checks
 Rscript MAIN.R clean
 Rscript MAIN.R indicators
 Rscript MAIN.R analyse
+Rscript MAIN.R review
+Rscript MAIN.R present
 ```
 
 ## Structure
 
-`MAIN.R` orchestrates scripts in `R/`: import and normalization, checks, reviewed cleaning, indicators and analysis. Configuration lives in `config/`. Raw files remain in `data/raw/`, cached data in `data/processed/`, and results in `outputs/`. No survey responses are included in this distribution.
+`MAIN.R` orchestrates seven stages: import and normalization, checks, reviewed cleaning, indicators, analysis, result review and presentation. See [the operating guide](docs/PIPELINE.md) for decisions, WASH adaptation, education, cache integrity and outputs. Configuration lives in `config/`. Raw files remain in `data/raw/`, cached data in `data/processed/`, and results in `outputs/`. No survey responses are included in this distribution.
 
 `column_map.csv` maps every source header by exact sheet and column position. Headers are validated before import. Label normalization is a separate preparation step, documented through the dictionary and input hashes; it does not overwrite the source workbook. Original exported scores are retained with an `export_` prefix. One truncated Protection option is preserved as an unmapped raw column; see `docs/unmapped_columns.csv`. This particular option is not included in the automatic descriptive analysis until its mapping is resolved.
 
@@ -94,7 +96,7 @@ Installer repair: run the entire installer with `source('scripts/install_depende
 
 Direct IMPACT dependencies are pinned in the installer. After successful installation it creates an actual `renv.lock`; subsequent sessions can use `renv::restore()`. No fabricated lockfile is supplied. Record the resolved lockfile with the project after installation.
 
-The distributed code and 1,092-column source schema were statically checked. The build environment had no R executable, so the full R pipeline and synthetic R tests have **not been executed** here. Run the included tests and inspect QA outputs before operational use. `docs/validation.json` records precisely what was checked.
+Validation status and the exact executed checks are recorded in `docs/validation.json`. Run both `Rscript tests/run_tests.R` and `Rscript tests/synthetic_pipeline.R` after installation. The synthetic workflow does not validate the real survey data or approve the country methodology.
 
 ## Source references
 
@@ -102,7 +104,7 @@ The distributed code and 1,092-column source schema were statically checked. The
 
 `config/framework_requirements.csv` compares 102 question references against the local schema and records exact-code matches, renamed inputs, adaptations, unavailable inputs and optional alternate modules. These counts describe schema coverage, not completed questionnaires or a count of mandatory missing indicators. `docs/framework_reference_warnings.csv` records five reference issues, including shifted sanitation code/label rows, an Education attack-omission note that conflicts with the local Kobo, income category terminology and older package references. The workbook's text approval note is not treated as proof that a deviation applies to the Mozambique assessment.
 
-All 45 cells of its embedded Food Consumption matrix were checked against the phase lists in pinned humind v2026.4.1. The 20 Food Consumption/Livelihood Coping cells using its first four livelihood categories also match the pinned function's logic. Their reference fixtures are included in `config/hicm_reference_cells.csv` and `config/fclcm_reference_cells.csv`, with runtime tests in `tests/run_tests.R`. The example's fifth livelihood-coping category requires a contextual near-exhaustion definition and is not invented by this project. Static cross-reference checks are recorded in `docs/framework_comparison.json`; the R tests remain unexecuted in the build environment.
+All 45 cells of its embedded Food Consumption matrix were checked against the phase lists in pinned humind v2026.4.1. The 20 Food Consumption/Livelihood Coping cells using its first four livelihood categories also match the pinned function's logic. Their reference fixtures are included in `config/hicm_reference_cells.csv` and `config/fclcm_reference_cells.csv`, with runtime tests in `tests/run_tests.R`. The example's fifth livelihood-coping category requires a contextual near-exhaustion definition and is not invented by this project. Static cross-reference checks are recorded in `docs/framework_comparison.json`; runtime validation status is recorded in `docs/validation.json`.
 
 The June companion workbook does not override the September guidance automatically. Both sources are retained in the methodological references, and apparent conflicts are documented instead of silently translated into scoring rules.
 
@@ -114,4 +116,14 @@ The June companion workbook does not override the September guidance automatical
 - User-supplied `REACH_MSNA_2026_MSNI_EN_20260626.xlsx`: Disaggregation, Food Security (including both embedded matrices), Education, Protection, SNFI, WASH and Health worksheets. Reference issues are recorded with exact sheet/cell locations in `docs/framework_reference_warnings.csv`.
 
 Read the MSNI Guidance Note 2026 and coordinate indicator adaptations with the Global MSNA/sector teams. The project implements the feasible analysis, keeps methodological decisions explicit and does not infer why any question was omitted.
-# moz_msna
+
+
+## Reviewed pipeline and presentation
+
+Blocker flags require an approved disposition before cleaning by default. Correct select-multiple binary options; parent-only changes are rejected and touched parents are rebuilt with an audit. Duplicate interview removals cascade by parent index. A shared validity rule feeds estimates and denominator reports. Successful stages have input/output hash records, preventing stale cached outputs from being reused.
+
+WASH collection time handles confirmed on-premises sources without inventing missing questionnaire fields. Unknown/refused container selections remain unknown litres. The configurable source list defaults to `piped_dwelling`; compound/neighbour require confirmation against the local questionnaire. Education can optionally correct age using valid interview dates and confirmed school-year settings; no fallback dates are invented.
+
+`review` checks result integrity before `present` produces labelled Excel tables (including IMPACT `presentresults` wide tables), a dashboard CSV and `outputs/presentation/report.html` with PNG charts, review status and methodological gaps. No raw record data is embedded in the report. Question and indicator labels can use English or Portuguese.
+
+See [docs/PIPELINE.md](docs/PIPELINE.md) for the complete operating instructions and the meaning of valid, missing, invalid, individual and household denominators.

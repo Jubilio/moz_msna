@@ -1,0 +1,24 @@
+variable,label_en,label_pt
+fsl_fcs_cat,Food Consumption Score category,Categoria do consumo alimentar
+fsl_rcsi_cat,Reduced Coping Strategies Index category,Categoria do índice reduzido de estratégias de sobrevivência
+fsl_hhs_cat,Household Hunger Scale category,Categoria da escala de fome do agregado
+fsl_hhs_cat_ipc,Household Hunger Scale IPC category,Categoria IPC da escala de fome do agregado
+fsl_fcs_score,Food Consumption Score,Pontuação do consumo alimentar
+fsl_rcsi_score,Reduced Coping Strategies Index,Índice reduzido de estratégias de sobrevivência
+fsl_hhs_score,Household Hunger Scale,Pontuação da escala de fome do agregado
+lcsi_local_category,Local livelihood coping category used or exhausted,Categoria local de estratégias usadas ou esgotadas
+lcsi_local_used_category,Local livelihood coping category used only,Categoria local de estratégias usadas
+fsl_fc_phase,Food Consumption Matrix phase,Fase da matriz de consumo alimentar
+water_collection_below_15l,Water collected yesterday below 15 litres per person,Água recolhida ontem abaixo de 15 litros por pessoa
+water_collection_time_over_30min,Water collection time above 30 minutes,Tempo de recolha de água superior a 30 minutos
+water_jmp_service,Drinking water service category,Categoria do serviço de água para beber
+sanitation_jmp_service,Sanitation service category,Categoria do serviço de saneamento
+water_litres_collected_per_person_yesterday,Water collected yesterday litres per person,Água recolhida ontem em litros por pessoa
+education_access,Access to education among school-age children,Acesso à educação das crianças em idade escolar
+education_oos,School-age children out of school,Crianças em idade escolar fora da escola
+education_cycle,Education cycle,Ciclo de ensino
+education_overage,Learners at least two years above intended grade age,Alunos com pelo menos dois anos acima da idade prevista para a classe
+health_access_category,Individual healthcare need and access,Necessidade individual e acesso a cuidados de saúde
+health_unmet_among_need,Unmet healthcare among individuals needing care,Necessidades não satisfeitas entre pessoas que precisaram de cuidados
+comp_health_score,Household Health composite severity,Severidade do composto de saúde do agregado
+comp_foodsec_score,Household Food Security composite severity,Severidade do composto de segurança alimentar do agregado

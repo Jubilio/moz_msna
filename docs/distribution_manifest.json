@@ -1,154 +1,190 @@
-[
-  {
-    "path": ".gitignore",
-    "sha256": "a2171ddf7382ca1a0631492274d7b571659c8ee34d093a0feae83cb99a587754"
-  },
-  {
-    "path": "MAIN.R",
-    "sha256": "eacae8db3a586821945b0f0bed872add350f12849ff6ec8813f5730d1bc0f62c"
-  },
-  {
-    "path": "MOZ_MSNA_2026.Rproj",
-    "sha256": "49e0757012ad1cdfee4efb09d72557166c7cfd5bbbd3fca55b0c4514528e8719"
-  },
-  {
-    "path": "R/00_utils.R",
-    "sha256": "b433f25df738fc52fcc6d7158c353ce7bf3959b151bbf2ac8c7a4b876e0f6e12"
-  },
-  {
-    "path": "R/01_prepare.R",
-    "sha256": "64c6d0fbbcca92acae3353141bd675641591ccb63d0e9bbb5b90bddff230ba92"
-  },
-  {
-    "path": "R/02_checks.R",
-    "sha256": "aca19abf3cc8ca4f65cf82a3bed8e161be31ec7a59b7a64b42a9067c45f9d763"
-  },
-  {
-    "path": "R/03_clean.R",
-    "sha256": "d425e2d7510bd807ccb110d4d4514e66894cd43b130e6d0d2d121451bafbd719"
-  },
-  {
-    "path": "R/04_indicators.R",
-    "sha256": "6e098ec821f3b04d7fd9ec0dcfe3e5afd1df2ebcf514279dc5199a6a5c9d2740"
-  },
-  {
-    "path": "R/04a_disaggregation.R",
-    "sha256": "cda354b95d48c431d3eaf822488d89f829b0242b2aba37e5d171bb0fc32a4b85"
-  },
-  {
-    "path": "R/05_analysis.R",
-    "sha256": "12cf6f1a1f31ba8b8486041747eeb314d3da8abd70a000bf96949b5684068e24"
-  },
-  {
-    "path": "README.md",
-    "sha256": "855170354807848b027c9673c78b2c44af5a21901a8eb9de9c9ba2aeea4dd049"
-  },
-  {
-    "path": "config/choices_dictionary.csv",
-    "sha256": "db083e5572e822ec268f4f237f4b7de62b6f114680af4544136c36392652363a"
-  },
-  {
-    "path": "config/cleaning_decisions.csv",
-    "sha256": "d481f8448acdf18e465c5b1d18dabc21924e2e7c89cfe90e448ca87890977e07"
-  },
-  {
-    "path": "config/column_map.csv",
-    "sha256": "d6780e0ca7529e7c73bc5b791794d5a37e3851c2d0f2a02b5c00610bcbe82a0c"
-  },
-  {
-    "path": "config/education_grades.csv",
-    "sha256": "093a45e0ef045e0542a548cedb734f9cfdb39727637c7d6a39ee3934e8c074ca"
-  },
-  {
-    "path": "config/fclcm_reference_cells.csv",
-    "sha256": "505d36634b0d21c03bdc3010a709288a8487acfdc3927e1c7382cf45ca582ac2"
-  },
-  {
-    "path": "config/framework_requirements.csv",
-    "sha256": "18d1d918c201cf3e86d041f23b14bb1d4387d6306bd0aa868fe983911281cf1f"
-  },
-  {
-    "path": "config/hicm_reference_cells.csv",
-    "sha256": "655851482e6d1247e26b132ea500f7047cb5e5c2a92bf85f0de5ceef995eaa25"
-  },
-  {
-    "path": "config/indicators.csv",
-    "sha256": "f48a7b367873f6d304bf2ffd08486fb1834f89d20b56cdb2bf5c00b3341d8c32"
-  },
-  {
-    "path": "config/lcsi_strategies.csv",
-    "sha256": "9767f0c5f288490702e8d11811f045405166d174d6e559d913a80a2d169c2f9b"
-  },
-  {
-    "path": "config/lcsi_unclassified_items.csv",
-    "sha256": "053f15924d7dc4c0f2e7925141f42f35c837a179e029ac20ed9c35bc935cdcd2"
-  },
-  {
-    "path": "config/methodology_gaps.csv",
-    "sha256": "db74a5f09fa7a8bd9cc0d0339a6cfb131c1b4ae449c722aaace1b90b4d09602d"
-  },
-  {
-    "path": "config/project.R",
-    "sha256": "a93c87aea7c8b20e0a4354a68fd5b6d3ef799b5715e8bf254155258572707f92"
-  },
-  {
-    "path": "config/sanitation_mapping.csv",
-    "sha256": "bd4ec136c75150990220557a75b3a2f4cb67c00a5cd30fb51eae4eaea2d181a0"
-  },
-  {
-    "path": "config/sheets.csv",
-    "sha256": "c3645d9a1c712ade773c0a23bdf64496e1efe07fd0bbc4a669ab2ae012df6c05"
-  },
-  {
-    "path": "config/survey_dictionary.csv",
-    "sha256": "49b8a16f7d233056a8d661273fae3f9105497ecd378e14317d080250b03fe6d2"
-  },
-  {
-    "path": "config/weights.csv",
-    "sha256": "e8644633c902d7bd11602b7acff57a717c3ed463162c8577b2f6cb7fdd68d52d"
-  },
-  {
-    "path": "data/processed/.gitkeep",
-    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  },
-  {
-    "path": "data/raw/README.md",
-    "sha256": "09a44485528e298242e698d9ef391601b63ec6babe72f10aac23c30947dc2a11"
-  },
-  {
-    "path": "data/raw/kobo-used.xlsx",
-    "sha256": "959b41de96e1e7489b06d75996333435bedbc3c428db1a467d000507e44bbde5"
-  },
-  {
-    "path": "docs/distribution_manifest.json",
-    "sha256": "d557226a35af07d052df3a1d21af341e02fe42c76e48b6525445aabeb83f036d"
-  },
-  {
-    "path": "docs/framework_comparison.json",
-    "sha256": "0ab1ae08c5ffd065e1bfaf486089a189325fcbee4b7a8d6f4d015a151a2abbb7"
-  },
-  {
-    "path": "docs/framework_reference_warnings.csv",
-    "sha256": "295c9bd69d7128fa6ec5e8760bf859db1d14bb6ef912a9b6091ed4feca81d6c1"
-  },
-  {
-    "path": "docs/unmapped_columns.csv",
-    "sha256": "d5326a06fe61a46db04a0ee08f4c42fb5ed6440d780f355505b534cbedcf81e0"
-  },
-  {
-    "path": "docs/validation.json",
-    "sha256": "b978a9bf7fc3555ddccaecddd4fb51c09201a060bfa75f4add2cc87338e27eeb"
-  },
-  {
-    "path": "outputs/.gitkeep",
-    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-  },
-  {
-    "path": "scripts/install_dependencies.R",
-    "sha256": "a8e382e035dcb796ab0dfc87762a4bdcfbe507e0a21e6f91c5babb0daa864885"
-  },
-  {
-    "path": "tests/run_tests.R",
-    "sha256": "92463379823dc65f8831efdd6483eada83a4e43841b4aa7f11d4ca77fc354165"
-  }
-]
+{
+  "algorithm": "Git blob SHA-1",
+  "scope": "Repository source files; excludes this self-referential manifest and generated assessment outputs",
+  "files": [
+    {
+      "path": ".github/workflows/r-pipeline.yml",
+      "git_blob_sha": "5ead68194cf2aef6fe9b78d83e0b9c60ee67c503"
+    },
+    {
+      "path": ".gitignore",
+      "git_blob_sha": "54f972c6891aca2a30f50f596a320e2aefced61f"
+    },
+    {
+      "path": "MAIN.R",
+      "git_blob_sha": "337e737af4d15b319e2e61ff128788b3cb772f4c"
+    },
+    {
+      "path": "MOZ_MSNA_2026.Rproj",
+      "git_blob_sha": "ffefba45f6460ed1f0b61356128ebbfdc8d7e521"
+    },
+    {
+      "path": "R/00_utils.R",
+      "git_blob_sha": "08acad36c5e6ea99f51dac2a1e301e3d36b2d3dd"
+    },
+    {
+      "path": "R/00a_pipeline.R",
+      "git_blob_sha": "780c85c8acf2ff146eac4800cf1ebbcbd7d549e6"
+    },
+    {
+      "path": "R/01_prepare.R",
+      "git_blob_sha": "71ea1943e1d237b9589960f5246a225d4ae54f07"
+    },
+    {
+      "path": "R/02_checks.R",
+      "git_blob_sha": "9acd9d907a8ac9c7a213f903ac74d4f73407b0e3"
+    },
+    {
+      "path": "R/03_clean.R",
+      "git_blob_sha": "9b036036db55674872e2dea3ca841c50bc9f7aa3"
+    },
+    {
+      "path": "R/03a_cleaning_review.R",
+      "git_blob_sha": "0473f731af0b202c6809684d36c1a8530773bc33"
+    },
+    {
+      "path": "R/04_indicators.R",
+      "git_blob_sha": "6b4406527e3fe10a1af0f33da641882969d907de"
+    },
+    {
+      "path": "R/04a_disaggregation.R",
+      "git_blob_sha": "53963b3610cd508b07633a14f15f5d5f917ba002"
+    },
+    {
+      "path": "R/04b_wash.R",
+      "git_blob_sha": "7963756a7c66a432cb9873ed636dcb790f155435"
+    },
+    {
+      "path": "R/05_analysis.R",
+      "git_blob_sha": "318cd7ea789268252d4d8109ecceb82ba9cc1366"
+    },
+    {
+      "path": "R/06_review.R",
+      "git_blob_sha": "0c28edb82ec230c593983668ba04065aa3469f7a"
+    },
+    {
+      "path": "R/07_present.R",
+      "git_blob_sha": "5c2ff3aa056af512fe64fd4696d1f553600a52b6"
+    },
+    {
+      "path": "README.html",
+      "git_blob_sha": "946144e81c58bec5352f9903043c91e9b87f1ad3"
+    },
+    {
+      "path": "README.md",
+      "git_blob_sha": "95bd95ef2c78f0545cc58bfe7f17f7ae9e52218c"
+    },
+    {
+      "path": "config/choices_dictionary.csv",
+      "git_blob_sha": "42b6361660067af92ee7046f9eeafe078ec77942"
+    },
+    {
+      "path": "config/cleaning_decisions.example.csv",
+      "git_blob_sha": "eb77a111be2d7019a6ab40daae3304e6c523904a"
+    },
+    {
+      "path": "config/column_map.csv",
+      "git_blob_sha": "a8235e5e569e6e34b7afadaef1484887d73f2d12"
+    },
+    {
+      "path": "config/education_grades.csv",
+      "git_blob_sha": "548340cd39497841298440f2ff0338eb05ef39f1"
+    },
+    {
+      "path": "config/fclcm_reference_cells.csv",
+      "git_blob_sha": "8fb0ea4cca6c140bb2d51736ff79f89acdcb9aa1"
+    },
+    {
+      "path": "config/framework_requirements.csv",
+      "git_blob_sha": "7e80d14b9b09b6adfb07391d468c473b44a9b802"
+    },
+    {
+      "path": "config/hicm_reference_cells.csv",
+      "git_blob_sha": "5f061dd3c97ca8b2b0021b28d2ff08a17c4858f4"
+    },
+    {
+      "path": "config/indicators.csv",
+      "git_blob_sha": "0b7a5b91b36950027ff016520d7d63b0903c77a2"
+    },
+    {
+      "path": "config/lcsi_strategies.csv",
+      "git_blob_sha": "f0df5034d5ed52a547caa721ae570038175899d2"
+    },
+    {
+      "path": "config/lcsi_unclassified_items.csv",
+      "git_blob_sha": "3910bedba2ead71e2a4d76683852a61e81646470"
+    },
+    {
+      "path": "config/methodology_gaps.csv",
+      "git_blob_sha": "c3fd3a701ec8f29d2a2bdc2b9814ac9e28127f37"
+    },
+    {
+      "path": "config/presentation_labels.csv",
+      "git_blob_sha": "655e68577e4279b21c860ca2670fe503d984b840"
+    },
+    {
+      "path": "config/project.R",
+      "git_blob_sha": "5cbc93141bdb34dacd6b9fbb50ec233e7234a810"
+    },
+    {
+      "path": "config/sanitation_mapping.csv",
+      "git_blob_sha": "34f909239aac7dd849cb28e714fa20dfda1f11bf"
+    },
+    {
+      "path": "config/sheets.csv",
+      "git_blob_sha": "612ee7f3e3a1e99c10e6bee2106a9c97354a3e7f"
+    },
+    {
+      "path": "config/survey_dictionary.csv",
+      "git_blob_sha": "20da169bfeef116d9d6224bfce557d29dd49e8e1"
+    },
+    {
+      "path": "data/processed/.gitkeep",
+      "git_blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "data/raw/README.md",
+      "git_blob_sha": "a5e947ada9c7867beec7b1c13ea0c0bfed7ed24a"
+    },
+    {
+      "path": "docs/PIPELINE.md",
+      "git_blob_sha": "a9cc0147c48715c001410a8cea3b42bf040eefb0"
+    },
+    {
+      "path": "docs/framework_comparison.json",
+      "git_blob_sha": "9d8c92d096b4434fdca167420f5f1a1e95ccce6f"
+    },
+    {
+      "path": "docs/framework_reference_warnings.csv",
+      "git_blob_sha": "36a1744263ca8ed3fd07f97ef54a741282e73085"
+    },
+    {
+      "path": "docs/unmapped_columns.csv",
+      "git_blob_sha": "9d927dd08c319b4c3c7d7495f637643eb2c20148"
+    },
+    {
+      "path": "docs/validation.json",
+      "git_blob_sha": "7876c37b969068afbc30d460ecad67676f1ef76f"
+    },
+    {
+      "path": "outputs/.gitkeep",
+      "git_blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "scripts/install_dependencies.R",
+      "git_blob_sha": "9fed554b45f7cce5c8bd94ecc8516cbb1780863d"
+    },
+    {
+      "path": "tests/pipeline_regressions.R",
+      "git_blob_sha": "4c6f615dd281d8292fad2084c484c363b7117b12"
+    },
+    {
+      "path": "tests/run_tests.R",
+      "git_blob_sha": "e09b52e1613548e62cca9e25ba402ec0c4650acd"
+    },
+    {
+      "path": "tests/synthetic_pipeline.R",
+      "git_blob_sha": "2270cc0d1217c696f1c74d772da1933b19d68698"
+    }
+  ]
+}

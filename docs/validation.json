@@ -1,24 +1,44 @@
 {
+  "reviewed_base_commit": "8df1b426619ca892b26c5c3640b7c279b262abb4",
+  "validation_date": "2026-10-22",
   "source_sheets": 8,
   "source_columns": 1092,
   "mapped_columns": 1091,
   "unmapped_columns": 1,
-  "configured_analysis_rows": 503,
+  "configured_analysis_rows": 504,
+  "runtime": {
+    "R": "4.3.3",
+    "dplyr": "1.2.1",
+    "srvyr": "1.3.1",
+    "humind": "2026.4.1",
+    "cleaningtools": "0.0.0.9003",
+    "analysistools": "0.0.0.903",
+    "presentresults": "0.0.0.9002"
+  },
   "checks_passed": [
-    "Exact sheet/header alignment",
-    "Unique mapped names per sheet",
-    "Choice codes for mapped binaries",
-    "Core indicator inputs present",
-    "Configured analysis variables resolvable",
-    "No duplicate analysis rows",
-    "R source quotes/brackets lexically balanced",
-    "Conservative methodology defaults"
+    "R parser: all project sources, installer and tests",
+    "Original synthetic boundary and IMPACT integration tests including 45 FCM / 20 FCLC reference cells",
+    "WASH unknown-container, malformed count, on-premises and 30-minute boundary regressions",
+    "Shared binary/numeric denominator validity and explicit blocker dispositions",
+    "Canonical cleaning values and audited select-multiple parent reconstruction",
+    "Actual MAIN.R entry point: all seven stages on an isolated synthetic workbook",
+    "Empty auxiliary loops and preserved household/individual units",
+    "Removal of one duplicated household UUID cascades by parent index",
+    "Changed upstream artifact rejects downstream cached execution",
+    "Eight aggregate result integrity checks pass in synthetic run",
+    "Presentation: 3 Excel workbooks, labelled/dashboard CSVs, HTML and 5 PNG charts",
+    "HTML local links and Excel sheet structure; chart visual inspection",
+    "git diff --check"
   ],
   "not_executed": [
-    "R syntax parsing",
-    "R dependency installation",
-    "Synthetic R tests",
-    "Full data cleaning/analysis"
+    "Full pipeline against the real 117 MB survey dataset (not in repository)",
+    "Country-level methodological approval and sampling-design validation",
+    "The complete renv bootstrap installer in a clean user RStudio session"
   ],
-  "reason": "R/Rscript unavailable in the build environment. Lexical checks do not prove executable correctness."
+  "notes": [
+    "Runtime dependencies installed from the pinned upstream source archives and CRAN; no package behavior was mocked.",
+    "Tiny synthetic groups can produce median confidence-interval warnings; descriptive confidence limits are removed and reviewed.",
+    "No synthetic data or generated report has been represented as real assessment results.",
+    "GitHub Actions repeats the boundary/regression and synthetic pipeline tests."
+  ]
 }

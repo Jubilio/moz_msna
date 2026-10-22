@@ -24,10 +24,21 @@ check_data <- function(cfg) {
     qs <- dictionary[dictionary$table==tab & dictionary$type %in% c('integer','decimal'),]
     for (v in intersect(qs$name,names(d))) {
       y <- num(d[[v]])
-      bad <- !is.na(d[[v]]) & (is.na(y) | y<0)
+      bad <- !is.na(d[[v]]) & (!is.finite(y) | y<0)
       flags <- dplyr::bind_rows(flags,flags_from(d,tab,v,bad,
         'Non-numeric or negative response in a non-negative numeric field',paste0('numeric_',v),'blocker'))
     }
+    # Validate integer fields and binary option columns before analysis masks invalid inputs.
+    for(v in intersect(qs$name[qs$type=='integer'],names(d))) {
+      y <- num(d[[v]])
+      flags <- dplyr::bind_rows(flags,flags_from(d,tab,v,
+        is.finite(y) & y!=floor(y),'Integer response contains a fraction',paste0('integer_',v),'blocker'))
+    }
+    mapping <- read_csv_text('config/column_map.csv')
+    binary <- mapping$name[mapping$table==tab & mapping$type=='binary']
+    for(v in intersect(binary,names(d))) flags <- dplyr::bind_rows(flags,flags_from(d,tab,v,
+      !is.na(d[[v]]) & !d[[v]] %in% c('0','1'),
+      'Binary option must be 0 or 1',paste0('binary_',v),'blocker'))
     if (tab=='main') {
       days <- c(paste0('m',3269:3277,'_hh_fcs_',
         c('staples','pulses','dairy','protein','veg','fruits','fat','sugar','condiments')),
@@ -77,3 +88,4 @@ check_data <- function(cfg) {
   write_csv(flags |> dplyr::count(table,check_id,severity,name='n_flags'),'outputs/qa/flag_summary.csv')
   message(nrow(flags),' flags for review; no responses automatically changed.')
 }
+

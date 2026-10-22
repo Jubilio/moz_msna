@@ -85,3 +85,5 @@ cases_lc <- tibble::tibble(fsl_fc_phase=paste0('Phase ',reference_lc$fc_phase,' 
 actual_lc <- humind::add_fclcm_phase(cases_lc)
 stopifnot(identical(actual_lc$fclcm_phase,paste0('Phase ',reference_lc$expected_phase,' FCLC')))
 cat('All synthetic boundary and IMPACT integration tests passed.\n')
+
+source('tests/pipeline_regressions.R')

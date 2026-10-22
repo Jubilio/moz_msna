@@ -1,5 +1,6 @@
 clean_data <- function(cfg) {
   tables <- readRDS('data/processed/prepared.rds')
+  unlink(list.files('outputs/qa',pattern='^cascade_removed_.*\\.csv$',full.names=TRUE))
   decisions <- read_csv_text(cfg$decisions)
   assert_cols(decisions,c('table','uuid','question','old_value','change_type','new_value','reason','reviewer','approved'))
   approved <- decisions[decisions$approved %in% 'yes',,drop=FALSE]
@@ -9,18 +10,28 @@ clean_data <- function(cfg) {
   if (any(!approved$table %in% names(tables))) stop('Unknown table in cleaning decisions.')
   if (anyDuplicated(paste(approved$table,approved$uuid,approved$question)))
     stop('Conflicting/duplicate decisions for one cell; consolidate the log.')
-  audit <- list()
+  mapping <- read_csv_text('config/column_map.csv')
+  choices <- read_csv_text('config/choices_dictionary.csv')
+  validate_decision_values(approved,mapping,choices)
+  for(tab in names(tables)) {
+    log <- approved[approved$table==tab,,drop=FALSE]
+    removed <- log$uuid[log$change_type=='remove_survey']
+    if(any(log$uuid[log$change_type %in% c('change_response','blank_response')] %in% removed))
+      stop('Do not edit and delete the same record in one run.')
+  }
+  audit <- list(); parent_audit <- list()
   for (tab in names(tables)) {
     d <- tables[[tab]]; log <- approved[approved$table==tab,,drop=FALSE]
     if (!nrow(log)) next
     if (any(!log$uuid %in% d$record_id)) stop('Unknown record_id in ',tab,' cleaning log.')
     edits <- !log$change_type %in% c('remove_survey','no_action')
-    if (any(!log$question[edits] %in% names(d))) stop('Unknown correction column in ',tab)
+    check_old <- log$change_type!='remove_survey'
+    if (any(!log$question[check_old] %in% names(d))) stop('Unknown correction column in ',tab)
     immutable <- c('uuid','hh_id','record_id','_index','_parent_index','Id')
     if (any(log$question[edits] %in% immutable)) stop('Do not alter link identifiers through a cleaning decision.')
     if (any(log$change_type=='change_response' & is.na(log$new_value)))
       stop('change_response needs new_value; use blank_response to set missing.')
-    for (i in which(edits)) {
+    for (i in which(check_old)) {
       old <- as.character(d[[log$question[i]]][match(log$uuid[i],d$record_id)])
       if (!identical(old,as.character(log$old_value[i]))) stop('Stale old_value in decision ',tab,': ',log$uuid[i])
     }
@@ -50,7 +61,8 @@ clean_data <- function(cfg) {
     for(i in which(edits)) if(log$uuid[i] %in% restored$record_id)
       restored[[log$question[i]]][match(log$uuid[i],restored$record_id)] <-
         if(log$change_type[i]=='blank_response') NA_character_ else log$new_value[i]
-    tables[[tab]] <- restored; audit[[tab]] <- log
+    synced <- sync_multiple_choices(restored,log,tab,mapping)
+    tables[[tab]] <- synced$data; parent_audit[[tab]] <- synced$audit; audit[[tab]] <- log
   }
   main <- tables$main
   if (anyNA(main$hh_id) || anyDuplicated(main$hh_id))
@@ -58,14 +70,19 @@ clean_data <- function(cfg) {
   for (tab in setdiff(names(tables),'main')) {
     d <- tables[[tab]]
     # Parent removal cascades explicitly and is included in the audit.
-    approved_deleted_hh <- setdiff(readRDS('data/processed/prepared.rds')$main$hh_id,main$hh_id)
-    dropped <- d$hh_id %in% approved_deleted_hh
+    original_main <- readRDS('data/processed/prepared.rds')$main
+    deleted_parent_indices <- setdiff(original_main[['_index']],main[['_index']])
+    dropped <- d[['_parent_index']] %in% deleted_parent_indices
     if (any(dropped)) write_csv(d[dropped,c('record_id','hh_id')],paste0('outputs/qa/cascade_removed_',tab,'.csv'))
     d <- d[!dropped,,drop=FALSE]
     parent <- match(d[['_parent_index']],main[['_index']])
     if (anyNA(parent) || any(d$hh_id != main$hh_id[parent])) stop('Invalid parent links in ',tab)
     tables[[tab]] <- d
   }
+  flags <- read_csv_text('outputs/qa/cleaning_flags.csv')
+  check_blocker_dispositions(flags,approved,tables,cfg)
+  write_csv(dplyr::bind_rows(parent_audit),'outputs/qa/rebuilt_multiple_parents.csv')
   saveRDS(tables,'data/processed/clean.rds')
   write_csv(dplyr::bind_rows(audit),'outputs/qa/applied_cleaning_log.csv')
 }
+

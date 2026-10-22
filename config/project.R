@@ -22,3 +22,18 @@ cfg <- list(
   local_lcsi_mapping_confirmed = FALSE,
   calculate_full_msni = FALSE
 )
+
+
+# Local WASH adaptation. Add compound/neighbour ONLY after confirming the local instrument.
+cfg$water_on_premises_sources <- c('piped_dwelling')
+cfg$water_max_collection_minutes <- 600
+cfg$require_blocker_review <- TRUE
+cfg$presentation_language <- 'en' # 'en' or 'pt'
+cfg$presentation_indicators <- c('fsl_fcs_cat','fsl_hhs_cat','water_jmp_service',
+                                  'education_oos','health_unmet_among_need')
+
+# Optional age correction: set a mapped main date column only after confirming the school year.
+# NULL keeps age-at-interview analysis; missing interview dates are never replaced by an old date.
+cfg$education_interview_date_column <- NULL
+cfg$education_school_year_start_month <- NULL
+cfg$education_school_year_confirmed <- FALSE
